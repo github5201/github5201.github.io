@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>尚硅谷高级技术之 Shell | 蓝颜时光网络</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://github5201.github.io/favicon.ico?v=1653608270895">
+<link rel="stylesheet" href="https://github5201.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="——————————————————————————————————————
+尚硅谷高级技术之 Shell
+（作者：尚硅谷研究院）
+版本：V 4. 0
+第 1 章 Shell 概述
+1 ） Linux 提供的 Shell 解析器有
+[atg..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://github5201.github.io">
+        <img src="https://github5201.github.io/images/avatar.png?v=1653608270895" class="site-logo">
+        <h1 class="site-title">蓝颜时光网络</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="https://www.centos.org/download/" class="site-nav" target="_blank">
+            CentOS下载
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      蓝颜时光
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://github5201.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">尚硅谷高级技术之 Shell</h2>
+            <div class="post-date">2022-05-25</div>
+            
+            <div class="post-content" v-pre>
+              <h4 id="">——————————————————————————————————————</h4>
+<h1 id="尚硅谷高级技术之-shell">尚硅谷高级技术之 Shell</h1>
+<h4 id="作者尚硅谷研究院">（作者：尚硅谷研究院）</h4>
+<h4 id="版本v-4-0">版本：V 4. 0</h4>
+<h2 id="第-1-章-shell-概述">第 1 章 Shell 概述</h2>
+<h4 id="1-linux-提供的-shell-解析器有">1 ） Linux 提供的 Shell 解析器有</h4>
+<p>[atguigu@hadoop 101 ~]$ cat /etc/shells<br>
+/bin/sh<br>
+/bin/bash<br>
+/usr/bin/sh<br>
+/usr/bin/bash<br>
+/bin/tcsh<br>
+/bin/csh</p>
+<h4 id="2-bash-和-sh-的关系">2 ） bash 和 sh 的关系</h4>
+<p>[atguigu@hadoop 101 bin]$ ll | grep bash</p>
+<ul>
+<li>rwxr-xr-x. 1 root root 9418805 月 11 2016 bash<br>
+lrwxrwxrwx. 1 root root 4 5 月 27 2017 sh -&gt; bash</li>
+</ul>
+<h4 id="3-centos-默认的解析器是-bash">3 ） Centos 默认的解析器是 bash</h4>
+<p>[atguigu@hadoop 101 bin]$ echo $SHELL<br>
+/bin/bash</p>
+<h2 id="第-2-章-shell-脚本入门">第 2 章 Shell 脚本入门</h2>
+<h4 id="1-脚本格式">1 ）脚本格式</h4>
+<h4 id="脚本以binbash开头指定解析器">脚本以#!/bin/bash开头（指定解析器）</h4>
+<h4 id="-2">——————————————————————————————————————</h4>
+<h4 id="2-第一个-shell-脚本-helloworldsh">2 ）第一个 Shell 脚本： helloworld.sh</h4>
+<h4 id="1-需求创建一个shell脚本输出helloworld">（ 1 ）需求：创建一个Shell脚本，输出helloworld</h4>
+<h4 id="2-案例实操">（ 2 ）案例实操：</h4>
+<p>[atguigu@hadoop 101 shells]$ touch helloworld.sh<br>
+[atguigu@hadoop 101 shells]$ vim helloworld.sh</p>
+<p>在helloworld.sh中输入如下内容<br>
+#!/bin/bash<br>
+echo &quot;helloworld&quot;</p>
+<h4 id="3-脚本的常用执行方式">（ 3 ）脚本的常用执行方式</h4>
+<h4 id="第一种采用bash或sh脚本的相对路径或绝对路径不用赋予脚本x权限">第一种：采用bash或sh+脚本的相对路径或绝对路径（不用赋予脚本+x权限）</h4>
+<h4 id="sh脚本的相对路径">sh+脚本的相对路径</h4>
+<p>[atguigu@hadoop 101 shells]$ sh./helloworld.sh<br>
+Helloworld</p>
+<h4 id="sh脚本的绝对路径">sh+脚本的绝对路径</h4>
+<p>[atguigu@hadoop 101 shells]$ sh/home/atguigu/shells/helloworld.sh<br>
+helloworld</p>
+<h4 id="bash脚本的相对路径">bash+脚本的相对路径</h4>
+<p>[atguigu@hadoop 101 shells]$ bash ./helloworld.sh<br>
+Helloworld</p>
+<h4 id="bash脚本的绝对路径">bash+脚本的绝对路径</h4>
+<p>[atguigu@hadoop 101 shells]$ bash /home/atguigu/shells/helloworld.sh<br>
+Helloworld</p>
+<h4 id="第二种采用输入脚本的绝对路径或相对路径执行脚本必须具有可执行权限x">第二种：采用输入脚本的绝对路径或相对路径执行脚本（必须具有可执行权限+x）</h4>
+<h4 id="1首先要赋予helloworldsh脚本的x权限">①首先要赋予helloworld.sh脚本的+x权限</h4>
+<p>[atguigu@hadoop 101 shells]$ chmod +x helloworld.sh</p>
+<h4 id="2执行脚本">②执行脚本</h4>
+<h4 id="相对路径">相对路径</h4>
+<p>[atguigu@hadoop 101 shells]$ ./helloworld.sh<br>
+Helloworld</p>
+<h4 id="绝对路径">绝对路径</h4>
+<p>[atguigu@hadoop 101 shells]$ /home/atguigu/shells/helloworld.sh<br>
+Helloworld</p>
+<h4 id="注意第一种执行方法本质是bash解析器帮你执行脚本所以脚本本身不需要执行">注意：第一种执行方法，本质是bash解析器帮你执行脚本，所以脚本本身不需要执行</h4>
+<h4 id="权限-第二种执行方法本质是脚本需要自己执行所以需要执行权限">权限。第二种执行方法，本质是脚本需要自己执行，所以需要执行权限。</h4>
+<h4 id="了解第三种在脚本的路径前加上或者source">【了解】第三种：在脚本的路径前加上“.”或者source</h4>
+<h4 id="1有以下脚本">①有以下脚本</h4>
+<p>[atguigu@hadoop 101 shells]$ cat test.sh<br>
+#!/bin/bash<br>
+A= 5<br>
+echo $A</p>
+<h4 id="2分别使用shbash和-的方式来执行结果如下">②分别使用sh，bash，./和 .的方式来执行，结果如下：</h4>
+<h4 id="-3">——————————————————————————————————————</h4>
+<p>[atguigu@hadoop 101 shells]$ bash test.sh<br>
+[atguigu@hadoop 101 shells]$ echo $A</p>
+<p>[atguigu@hadoop 101 shells]$ shtest.sh<br>
+[atguigu@hadoop 101 shells]$ echo $A</p>
+<p>[atguigu@hadoop 101 shells]$ ./test.sh<br>
+[atguigu@hadoop 101 shells]$ echo $A</p>
+<p>[atguigu@hadoop 101 shells]<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">.</mi><mi>t</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>s</mi><mi>h</mi><mo>[</mo><mi>a</mi><mi>t</mi><mi>g</mi><mi>u</mi><mi>i</mi><mi>g</mi><mi>u</mi><mi mathvariant="normal">@</mi><mi>h</mi><mi>a</mi><mi>d</mi><mi>o</mi><mi>o</mi><mi>p</mi><mn>101</mn><mi>s</mi><mi>h</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>s</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">. test.sh
+[atguigu@hadoop 101 shells]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">.</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord">.</span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">u</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">u</span><span class="mord">@</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord">1</span><span class="mord">0</span><span class="mord">1</span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mclose">]</span></span></span></span> echo $A<br>
+5</p>
+<h4 id="原因">原因：</h4>
+<h4 id="前两种方式都是在当前shell中打开一个子shell来执行脚本内容当脚本内容结束则">前两种方式都是在当前shell中打开一个子shell来执行脚本内容，当脚本内容结束，则</h4>
+<h4 id="子shell关闭回到父shell中">子shell关闭，回到父shell中。</h4>
+<h4 id="第三种也就是使用在脚本路径前加或者-source的方式可以使脚本内容在当前">第三种，也就是使用在脚本路径前加“.”或者 source的方式，可以使脚本内容在当前</h4>
+<h4 id="shell里执行而无需打开子shell这也是为什么我们每次要修改完etcprofile文件以后需">shell里执行，而无需打开子shell！这也是为什么我们每次要修改完/etc/profile文件以后，需</h4>
+<h4 id="要source一下的原因">要source一下的原因。</h4>
+<h4 id="开子shell与不开子shell的区别就在于环境变量的继承关系如在子shell中设置的">开子shell与不开子shell的区别就在于，环境变量的继承关系，如在子shell中设置的</h4>
+<h4 id="当前变量父shell是不可见的">当前变量，父shell是不可见的。</h4>
+<h2 id="第-3-章-变量">第 3 章 变量</h2>
+<h3 id="3-1-系统预定义变量">3. 1 系统预定义变量</h3>
+<h4 id="1-常用系统变量">1 ）常用系统变量</h4>
+<h4 id="home-pwd-shell-user等"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>H</mi><mi>O</mi><mi>M</mi><mi>E</mi><mi mathvariant="normal">、</mi></mrow><annotation encoding="application/x-tex">HOME、</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mord cjk_fallback">、</span></span></span></span>PWD、<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mi>H</mi><mi>E</mi><mi>L</mi><mi>L</mi><mi mathvariant="normal">、</mi></mrow><annotation encoding="application/x-tex">SHELL、</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mord mathdefault">L</span><span class="mord mathdefault">L</span><span class="mord cjk_fallback">、</span></span></span></span>USER等</h4>
+<h4 id="2-案例实操-2">2 ）案例实操</h4>
+<h4 id="1-查看系统变量的值">（ 1 ）查看系统变量的值</h4>
+<p>[atguigu@hadoop 101 shells]$ echo $HOME<br>
+/home/atguigu</p>
+<h4 id="2-显示当前shell中所有变量set">（ 2 ）显示当前Shell中所有变量：set</h4>
+<p>[atguigu@hadoop 101 shells]$ set<br>
+BASH=/bin/bash<br>
+BASH_ALIASES=()<br>
+BASH_ARGC=()<br>
+BASH_ARGV=()</p>
+<h3 id="3-2-自定义变量">3. 2 自定义变量</h3>
+<h4 id="1-基本语法">1 ）基本语法</h4>
+<h4 id="1-定义变量变量名变量值注意号前后不能有空格">（ 1 ）定义变量：变量名=变量值，注意，=号前后不能有空格</h4>
+<h4 id="2-撤销变量unset变量名">（ 2 ）撤销变量：unset变量名</h4>
+<h4 id="-4">——————————————————————————————————————</h4>
+<h4 id="3-声明静态变量readonly变量注意不能unset">（ 3 ）声明静态变量：readonly变量，注意：不能unset</h4>
+<h4 id="2-变量定义规则">2 ）变量定义规则</h4>
+<h4 id="1-变量名称可以由字母-数字和下划线组成但是不能以数字开头环境变量名建">（ 1 ）变量名称可以由字母、数字和下划线组成，但是不能以数字开头，环境变量名建</h4>
+<h4 id="议大写">议大写。</h4>
+<h4 id="2-等号两侧不能有空格">（ 2 ）等号两侧不能有空格</h4>
+<h4 id="3-在bash中变量默认类型都是字符串类型无法直接进行数值运算">（ 3 ）在bash中，变量默认类型都是字符串类型，无法直接进行数值运算。</h4>
+<h4 id="4-变量的值如果有空格需要使用双引号或单引号括起来">（ 4 ）变量的值如果有空格，需要使用双引号或单引号括起来。</h4>
+<h4 id="3-案例实操">3 ）案例实操</h4>
+<h4 id="1-定义变量a">（ 1 ）定义变量A</h4>
+<p>[atguigu@hadoop 101 shells]$ A= 5<br>
+[atguigu@hadoop 101 shells]$ echo $A<br>
+5</p>
+<h4 id="2-给变量a重新赋值">（ 2 ）给变量A重新赋值</h4>
+<p>[atguigu@hadoop 101 shells]$ A= 8<br>
+[atguigu@hadoop 101 shells]$ echo $A<br>
+8</p>
+<h4 id="3-撤销变量a">（ 3 ）撤销变量A</h4>
+<p>[atguigu@hadoop 101 shells]$ unset A<br>
+[atguigu@hadoop 101 shells]$ echo $A</p>
+<h4 id="4-声明静态的变量b-2-不能unset">（ 4 ）声明静态的变量B= 2 ，不能unset</h4>
+<p>[atguigu@hadoop 101 shells]$ readonly B= 2<br>
+[atguigu@hadoop 101 shells]$ echo <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mn>2</mn><mo>[</mo><mi>a</mi><mi>t</mi><mi>g</mi><mi>u</mi><mi>i</mi><mi>g</mi><mi>u</mi><mi mathvariant="normal">@</mi><mi>h</mi><mi>a</mi><mi>d</mi><mi>o</mi><mi>o</mi><mi>p</mi><mn>101</mn><mi>s</mi><mi>h</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>s</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">B
+2
+[atguigu@hadoop 101 shells]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord">2</span><span class="mopen">[</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">u</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">u</span><span class="mord">@</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord">1</span><span class="mord">0</span><span class="mord">1</span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mclose">]</span></span></span></span> B= 9</p>
+<ul>
+<li>bash: B: readonly variable</li>
+</ul>
+<h4 id="5-在bash中变量默认类型都是字符串类型无法直接进行数值运算">（ 5 ）在bash中，变量默认类型都是字符串类型，无法直接进行数值运算</h4>
+<p>[atguigu@hadoop 102 ~]$ C= 1 + 2<br>
+[atguigu@hadoop 102 ~]$ echo $C<br>
+1 + 2</p>
+<h4 id="6-变量的值如果有空格需要使用双引号或单引号括起来">（ 6 ）变量的值如果有空格，需要使用双引号或单引号括起来</h4>
+<p>[atguigu@hadoop 102 ~]$ D=I love banzhang</p>
+<ul>
+<li>bash: world: command notfound<br>
+[atguigu@hadoop 102 ~]$ D=&quot;I love banzhang&quot;<br>
+[atguigu@hadoop 102 ~]$ echo $D<br>
+I love banzhang</li>
+</ul>
+<h4 id="7-可把变量提升为全局环境变量可供其他shell程序使用">（ 7 ）可把变量提升为全局环境变量，可供其他Shell程序使用</h4>
+<p>export变量名<br>
+[atguigu@hadoop 101 shells]$ vim helloworld.sh</p>
+<h4 id="在helloworldsh文件中增加echob">在helloworld.sh文件中增加echo$B</h4>
+<p>#!/bin/bash</p>
+<p>echo &quot;helloworld&quot;<br>
+echo $B</p>
+<h4 id="-5">——————————————————————————————————————</h4>
+<p>[atguigu@hadoop 101 shells]$ ./helloworld.sh<br>
+Helloworld</p>
+<h4 id="发现并没有打印输出变量b的值">发现并没有打印输出变量B的值。</h4>
+<p>[atguigu@hadoop 101 shells]$ export B<br>
+[atguigu@hadoop 101 shells]$ ./helloworld.sh<br>
+helloworld<br>
+2</p>
+<h3 id="3-3-特殊变量">3. 3 特殊变量</h3>
+<h3 id="3-3-1-n">3. 3. 1 $n</h3>
+<h4 id="1-基本语法-2">1 ）基本语法</h4>
+<h4 id="n-功能描述n为数字-0-代表该脚本名称-1-9-代表第一到第九个参数十以"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi mathvariant="normal">（</mi><mi mathvariant="normal">功</mi><mi mathvariant="normal">能</mi><mi mathvariant="normal">描</mi><mi mathvariant="normal">述</mi><mi mathvariant="normal">：</mi><mi>n</mi><mi mathvariant="normal">为</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">字</mi><mi mathvariant="normal">，</mi></mrow><annotation encoding="application/x-tex">n （功能描述：n为数字，</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mord cjk_fallback">（</span><span class="mord cjk_fallback">功</span><span class="mord cjk_fallback">能</span><span class="mord cjk_fallback">描</span><span class="mord cjk_fallback">述</span><span class="mord cjk_fallback">：</span><span class="mord mathdefault">n</span><span class="mord cjk_fallback">为</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">字</span><span class="mord cjk_fallback">，</span></span></span></span> 0 代表该脚本名称，$ 1 - $ 9 代表第一到第九个参数，十以</h4>
+<h4 id="上的参数十以上的参数需要用大括号包含如-10">上的参数，十以上的参数需要用大括号包含，如${ 10 }）</h4>
+<h4 id="2-案例实操-3">2 ）案例实操</h4>
+<p>[atguigu@hadoop 101 shells]$ touch parameter.sh<br>
+[atguigu@hadoop 101 shells]$ vim parameter.sh<br>
+#!/bin/bash<br>
+echo '<mark><mark><mark><mark><mark>$n</mark></mark></mark></mark></mark>'<br>
+echo $ 0<br>
+echo $ 1<br>
+echo $ 2</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 parameter.sh<br>
+[atguigu@hadoop 101 shells]$ ./parameter.sh cls xz<br>
+<mark><mark><mark><mark><mark>$n</mark></mark></mark></mark></mark><br>
+./parameter.sh<br>
+cls<br>
+xz</p>
+<h3 id="3-3-2">3. 3. 2 $#</h3>
+<h4 id="1-基本语法-3">1 ）基本语法</h4>
+<h4 id="功能描述获取所有输入参数个数常用于循环判断参数的个数是否正确以及">$# （功能描述：获取所有输入参数个数，常用于循环,判断参数的个数是否正确以及</h4>
+<h4 id="加强脚本的健壮性">加强脚本的健壮性）。</h4>
+<h4 id="2-案例实操-4">2 ）案例实操</h4>
+<p>[atguigu@hadoop 101 shells]$ vim parameter.sh<br>
+#!/bin/bash<br>
+echo '<mark><mark><mark><mark><mark>$n</mark></mark></mark></mark></mark>'<br>
+echo $ 0<br>
+echo $ 1<br>
+echo $ 2<br>
+echo '<mark><mark><mark><mark><mark>$#</mark></mark></mark></mark></mark>'<br>
+echo $#</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 parameter.sh<br>
+[atguigu@hadoop 101 shells]$ ./parameter.sh cls xz<br>
+<mark><mark><mark><mark><mark>$n</mark></mark></mark></mark></mark><br>
+./parameter.sh<br>
+cls</p>
+<h4 id="-6">——————————————————————————————————————</h4>
+<p>xz<br>
+<mark><mark><mark><mark><mark>$#</mark></mark></mark></mark></mark><br>
+2</p>
+<h3 id="3-3-3">3. 3. 3 $* 、 $@</h3>
+<h4 id="1-基本语法-4">1 ）基本语法</h4>
+<h4 id="功能描述这个变量代表命令行中所有的参数把所有的参数看成一个整体"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mi mathvariant="normal">（</mi><mi mathvariant="normal">功</mi><mi mathvariant="normal">能</mi><mi mathvariant="normal">描</mi><mi mathvariant="normal">述</mi><mi mathvariant="normal">：</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">代</mi><mi mathvariant="normal">表</mi><mi mathvariant="normal">命</mi><mi mathvariant="normal">令</mi><mi mathvariant="normal">行</mi><mi mathvariant="normal">中</mi><mi mathvariant="normal">所</mi><mi mathvariant="normal">有</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">参</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">，</mi></mrow><annotation encoding="application/x-tex">* （功能描述：这个变量代表命令行中所有的参数，</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mord cjk_fallback">（</span><span class="mord cjk_fallback">功</span><span class="mord cjk_fallback">能</span><span class="mord cjk_fallback">描</span><span class="mord cjk_fallback">述</span><span class="mord cjk_fallback">：</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">代</span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">命</span><span class="mord cjk_fallback">令</span><span class="mord cjk_fallback">行</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">有</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">，</span></span></span></span>*把所有的参数看成一个整体）</h4>
+<h4 id="功能描述这个变量也代表命令行中所有的参数不过把每个参数区分对待"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">@</mi><mi mathvariant="normal">（</mi><mi mathvariant="normal">功</mi><mi mathvariant="normal">能</mi><mi mathvariant="normal">描</mi><mi mathvariant="normal">述</mi><mi mathvariant="normal">：</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">也</mi><mi mathvariant="normal">代</mi><mi mathvariant="normal">表</mi><mi mathvariant="normal">命</mi><mi mathvariant="normal">令</mi><mi mathvariant="normal">行</mi><mi mathvariant="normal">中</mi><mi mathvariant="normal">所</mi><mi mathvariant="normal">有</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">参</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">不</mi><mi mathvariant="normal">过</mi></mrow><annotation encoding="application/x-tex">@ （功能描述：这个变量也代表命令行中所有的参数，不过</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">@</span><span class="mord cjk_fallback">（</span><span class="mord cjk_fallback">功</span><span class="mord cjk_fallback">能</span><span class="mord cjk_fallback">描</span><span class="mord cjk_fallback">述</span><span class="mord cjk_fallback">：</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">也</span><span class="mord cjk_fallback">代</span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">命</span><span class="mord cjk_fallback">令</span><span class="mord cjk_fallback">行</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">有</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">过</span></span></span></span>@把每个参数区分对待）</h4>
+<h4 id="2-案例实操-5">2 ）案例实操</h4>
+<p>[atguigu@hadoop 101 shells]$ vim parameter.sh<br>
+#!/bin/bash<br>
+echo '<mark><mark><mark><mark><mark>$n</mark></mark></mark></mark></mark>'<br>
+echo $ 0<br>
+echo $ 1<br>
+echo $ 2<br>
+echo '<mark><mark><mark><mark><mark>$#</mark></mark></mark></mark></mark>'<br>
+echo <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;#&#039; at position 1: #̲
+echo &#039;========…'>#
+echo &#039;==========</span>*<mark><mark><mark><mark><mark>'<br>
+echo <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mi>e</mi><mi>c</mi><mi>h</mi><msup><mi>o</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">*
+echo &#x27;==========</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord"><span class="mord mathdefault">o</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span></span></span>@</mark></mark></mark></mark></mark>'<br>
+echo <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">@</mi><mo>[</mo><mi>a</mi><mi>t</mi><mi>g</mi><mi>u</mi><mi>i</mi><mi>g</mi><mi>u</mi><mi mathvariant="normal">@</mi><mi>h</mi><mi>a</mi><mi>d</mi><mi>o</mi><mi>o</mi><mi>p</mi><mn>101</mn><mi>s</mi><mi>h</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi>s</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">@
+[atguigu@hadoop 101 shells]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">@</span><span class="mopen">[</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">u</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">u</span><span class="mord">@</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">p</span><span class="mord">1</span><span class="mord">0</span><span class="mord">1</span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mclose">]</span></span></span></span> ./parameter.sh a b c de f g<br>
+<mark><mark><mark><mark><mark><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">/</mi><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>e</mi><mi>r</mi><mi mathvariant="normal">.</mi><mi>s</mi><mi>h</mi><mi>a</mi><mi>b</mi><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">n==========
+./parameter.sh
+a
+b
+==========</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">.</span><span class="mord">/</span><span class="mord mathdefault">p</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">.</span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span></span></span>#</mark></mark></mark></mark></mark><br>
+7<br>
+<mark><mark><mark><mark><mark><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mi>a</mi><mi>b</mi><mi>c</mi><mi>d</mi><mi>e</mi><mi>f</mi><mi>g</mi><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">*==========
+a b cd e f g
+==========</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault">b</span><span class="mord mathdefault">c</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span></span></span>@</mark></mark></mark></mark></mark><br>
+a b cd e f g</p>
+<h3 id="3-3-4">3. 3. 4 $ ？</h3>
+<h4 id="1-基本语法-5">1 ）基本语法</h4>
+<h4 id="功能描述最后一次执行的命令的返回状态-如果这个变量的值为-0-证明上一">$？ （功能描述：最后一次执行的命令的返回状态。如果这个变量的值为 0 ，证明上一</h4>
+<h4 id="个命令正确执行如果这个变量的值为非-0-具体是哪个数由命令自己来决定则证明">个命令正确执行；如果这个变量的值为非 0 （具体是哪个数，由命令自己来决定），则证明</h4>
+<h4 id="上一个命令执行不正确了">上一个命令执行不正确了。）</h4>
+<h4 id="2-案例实操-6">2 ）案例实操</h4>
+<h4 id="判断helloworldsh脚本是否正确执行">判断helloworld.sh脚本是否正确执行</h4>
+<p>[atguigu@hadoop 101 shells]$ ./helloworld.sh<br>
+helloworld<br>
+[atguigu@hadoop 101 shells]$ echo $?<br>
+0</p>
+<h2 id="第-4-章-运算符">第 4 章 运算符</h2>
+<h4 id="1-基本语法-6">1 ）基本语法</h4>
+<h4 id="-7">——————————————————————————————————————</h4>
+<h4 id="运算式或-运算式">“<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mo>(</mo><mi mathvariant="normal">运</mi><mi mathvariant="normal">算</mi><mi mathvariant="normal">式</mi><mo>)</mo><mo>)</mo><mi mathvariant="normal">”</mi><mi mathvariant="normal">或</mi><mi mathvariant="normal">“</mi></mrow><annotation encoding="application/x-tex">((运算式))”或 “</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mopen">(</span><span class="mord cjk_fallback">运</span><span class="mord cjk_fallback">算</span><span class="mord cjk_fallback">式</span><span class="mclose">)</span><span class="mclose">)</span><span class="mord">”</span><span class="mord cjk_fallback">或</span><span class="mord">“</span></span></span></span>[运算式]”</h4>
+<h4 id="2-案例实操-7">2 ）案例实操：</h4>
+<h4 id="计算-2-3-4-的值">计算（ 2 + 3 ）* 4 的值</h4>
+<p>[atguigu@hadoop 101 shells]# S=$[( 2 + 3 )* 4 ]<br>
+[atguigu@hadoop 101 shells]# echo $S</p>
+<h2 id="第-5-章-条件判断">第 5 章 条件判断</h2>
+<h4 id="1-基本语法-7">1 ）基本语法</h4>
+<h4 id="1-testcondition">（ 1 ）testcondition</h4>
+<h4 id="2-condition注意condition前后要有空格">（ 2 ）[condition]（注意condition前后要有空格）</h4>
+<h4 id="注意条件非空即为trueatguigu返回true-返回false">注意：条件非空即为true，[atguigu]返回true，[ ] 返回false。</h4>
+<h4 id="2-常用判断条件">2 ）常用判断条件</h4>
+<h4 id="1-两个整数之间比较">（ 1 ）两个整数之间比较</h4>
+<ul>
+<li>eq 等于（equal） -ne不等于（notequal）</li>
+<li>lt 小于（lessthan） -le小于等于（lessequal）</li>
+<li>gt大于（greaterthan） -ge大于等于（greaterequal）</li>
+</ul>
+<h4 id="注如果是字符串之间的比较-用等号判断相等用判断不等">注：如果是字符串之间的比较 ，用等号“=”判断相等；用“!=”判断不等。</h4>
+<h4 id="2-按照文件权限进行判断">（ 2 ）按照文件权限进行判断</h4>
+<ul>
+<li>r 有读的权限（read）</li>
+<li>w有写的权限（write）</li>
+<li>x 有执行的权限（execute）</li>
+</ul>
+<h4 id="3-按照文件类型进行判断">（ 3 ）按照文件类型进行判断</h4>
+<ul>
+<li>e文件存在（existence）</li>
+<li>f 文件存在并且是一个常规的文件（file）</li>
+<li>d 文件存在并且是一个目录（directory）</li>
+</ul>
+<h4 id="3-案例实操-2">3 ）案例实操</h4>
+<h4 id="1-23-是否大于等于-22">（ 1 ） 23 是否大于等于 22</h4>
+<p>[atguigu@hadoop 101 shells]$ [ 23 - ge 22 ]<br>
+[atguigu@hadoop 101 shells]$ echo $?<br>
+0</p>
+<h4 id="2-helloworldsh是否具有写权限">（ 2 ）helloworld.sh是否具有写权限</h4>
+<p>[atguigu@hadoop 101 shells]$ [ -w helloworld.sh ]<br>
+[atguigu@hadoop 101 shells]$ echo $?<br>
+0</p>
+<h4 id="-8">——————————————————————————————————————</h4>
+<h4 id="3-homeatguiguclstxt目录中的文件是否存在">（ 3 ）/home/atguigu/cls.txt目录中的文件是否存在</h4>
+<p>[atguigu@hadoop 101 shells]$ [ -e /home/atguigu/cls.txt ]<br>
+[atguigu@hadoop 101 shells]$ echo $?<br>
+1</p>
+<h4 id="4-多条件判断表示前一条命令执行成功时才执行后一条命令表示上一">（ 4 ）多条件判断（&amp;&amp;表示前一条命令执行成功时，才执行后一条命令，||表示上一</h4>
+<h4 id="条命令执行失败后才执行下一条命令">条命令执行失败后，才执行下一条命令）</h4>
+<p>[atguigu@hadoop 101 ~]$ [ atguigu ] &amp;&amp; echo OK|| echo notOK<br>
+OK<br>
+[atguigu@hadoop 101 shells]$ [ ] &amp;&amp; echo OK ||echonotOK<br>
+notOK</p>
+<h2 id="第-6-章-流程控制重点">第 6 章 流程控制（重点）</h2>
+<h3 id="6-1-if-判断">6. 1 if 判断</h3>
+<h4 id="1-基本语法-8">1 ）基本语法</h4>
+<h4 id="1-单分支">（ 1 ）单分支</h4>
+<h4 id="if-条件判断式-then">if [条件判断式 ];then</h4>
+<h4 id="程序">程序</h4>
+<h4 id="fi">fi</h4>
+<h4 id="或者">或者</h4>
+<h4 id="if-条件判断式">if [ 条件判断式]</h4>
+<h4 id="then">then</h4>
+<h4 id="程序-2">程序</h4>
+<h4 id="fi-2">fi</h4>
+<h4 id="2-多分支">（ 2 ）多分支</h4>
+<h4 id="if-条件判断式-2">if [条件判断式 ]</h4>
+<h4 id="then-2">then</h4>
+<h4 id="程序-3">程序</h4>
+<h4 id="elif-条件判断式">elif [ 条件判断式 ]</h4>
+<h4 id="then-3">then</h4>
+<h4 id="程序-4">程序</h4>
+<h4 id="else">else</h4>
+<h4 id="程序-5">程序</h4>
+<h4 id="fi-3">fi</h4>
+<h4 id="注意事项">注意事项：</h4>
+<h4 id="1-条件判断式-中括号和条件判断式之间必须有空格">①[ 条件判断式 ]，中括号和条件判断式之间必须有空格</h4>
+<h4 id="2if后要有空格">②if后要有空格</h4>
+<h4 id="2-案例实操-8">2 ）案例实操</h4>
+<h4 id="输入一个数字如果是-1-则输出banzhangzhenshuai如果是-2-则输出clszhenmei">输入一个数字，如果是 1 ，则输出banzhangzhenshuai，如果是 2 ，则输出clszhenmei，</h4>
+<h4 id="如果是其它什么也不输出">如果是其它，什么也不输出。</h4>
+<p>[atguigu@hadoop 101 shells]$ touch if.sh<br>
+[atguigu@hadoop 101 shells]$ vim if.sh</p>
+<h4 id="-9">——————————————————————————————————————</h4>
+<p>#!/bin/bash</p>
+<p>if [ $ 1 - eq 1 ]<br>
+then<br>
+echo &quot;banzhang zhen shuai&quot;<br>
+elif [ $ 1 - eq 2 ]<br>
+then<br>
+echo &quot;cls zhen mei&quot;<br>
+fi</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 if.sh<br>
+[atguigu@hadoop 101 shells]$ ./if.sh 1<br>
+banzhang zhen shuai</p>
+<h3 id="6-2-case-语句">6. 2 case 语句</h3>
+<h4 id="1-基本语法-9">1 ）基本语法</h4>
+<h4 id="case-变量名-in">case $变量名 in</h4>
+<h4 id="值-1">&quot;值 1 &quot;）</h4>
+<h4 id="如果变量的值等于值-1-则执行程序-1">如果变量的值等于值 1 ，则执行程序 1</h4>
+<h4 id="-10">;;</h4>
+<h4 id="值-2">&quot;值 2 &quot;）</h4>
+<h4 id="如果变量的值等于值-2-则执行程序-2">如果变量的值等于值 2 ，则执行程序 2</h4>
+<h4 id="-11">;;</h4>
+<h4 id="省略其他分支">...省略其他分支...</h4>
+<h4 id="-12">*）</h4>
+<h4 id="如果变量的值都不是以上的值则执行此程序">如果变量的值都不是以上的值，则执行此程序</h4>
+<h4 id="-13">;;</h4>
+<h4 id="esac">esac</h4>
+<h4 id="注意事项-2">注意事项：</h4>
+<h4 id="1-case行尾必须为单词in每一个模式匹配必须以右括号结束">（ 1 ）case行尾必须为单词“in”，每一个模式匹配必须以右括号“）”结束。</h4>
+<h4 id="2-双分号-表示命令序列结束相当于java中的break">（ 2 ）双分号“ ;; ”表示命令序列结束，相当于java中的break。</h4>
+<h4 id="3-最后的表示默认模式相当于java中的default">（ 3 ）最后的“*）”表示默认模式，相当于java中的default。</h4>
+<h4 id="2-案例实操-9">2 ）案例实操</h4>
+<h4 id="输入一个数字如果是-1-则输出banzhang如果是-2-则输出cls如果是其它输出">输入一个数字，如果是 1 ，则输出banzhang，如果是 2 ，则输出cls，如果是其它，输出</h4>
+<h4 id="renyao">renyao。</h4>
+<p>[atguigu@hadoop 101 shells]$ touch case.sh<br>
+[atguigu@hadoop 101 shells]$ vim case.sh</p>
+<p>!/bin/bash</p>
+<p>case $ 1 in<br>
+&quot; 1 &quot;)<br>
+echo &quot;banzhang&quot;<br>
+;;</p>
+<p>&quot; 2 &quot;)<br>
+echo &quot;cls&quot;<br>
+;;<br>
+*)</p>
+<h4 id="-14">——————————————————————————————————————</h4>
+<p>echo &quot;renyao&quot;<br>
+;;<br>
+esac</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 case.sh<br>
+[atguigu@hadoop 101 shells]$ ./case.sh 1<br>
+1</p>
+<h3 id="6-3-for-循环">6. 3 for 循环</h3>
+<h4 id="1-基本语法-1">1 ）基本语法 1</h4>
+<h4 id="for-初始值循环控制条件变量变化">for (( 初始值;循环控制条件;变量变化))</h4>
+<h4 id="do">do</h4>
+<h4 id="程序-6">程序</h4>
+<h4 id="done">done</h4>
+<h4 id="2-案例实操-10">2 ）案例实操</h4>
+<h4 id="从-1-加到-100">从 1 加到 100</h4>
+<p>[atguigu@hadoop 101 shells]$ touch for 1 .sh<br>
+[atguigu@hadoop 101 shells]$ vim for 1 .sh</p>
+<p>#!/bin/bash</p>
+<p>sum= 0<br>
+for((i= 0 ;i&lt;= 100 ;i++))<br>
+do<br>
+sum=<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo></mrow><annotation encoding="application/x-tex">[</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span></span></span></span>sum+$i]<br>
+done<br>
+echo $sum</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 for 1 .sh<br>
+[atguigu@hadoop 101 shells]$ ./for 1 .sh<br>
+5050</p>
+<h4 id="3-基本语法-2">3 ）基本语法 2</h4>
+<h4 id="for变量in值-1-值-2-值-3">for变量in值 1 值 2 值 3 ...</h4>
+<h4 id="do-2">do</h4>
+<h4 id="程序-7">程序</h4>
+<h4 id="done-2">done</h4>
+<h4 id="4-案例实操">4 ）案例实操</h4>
+<h4 id="1-打印所有输入参数">（ 1 ）打印所有输入参数</h4>
+<p>[atguigu@hadoop 101 shells]$ touch for 2 .sh<br>
+[atguigu@hadoop 101 shells]$ vim for 2 .sh</p>
+<p>#!/bin/bash<br>
+#打印数字</p>
+<p>for iin cls mly wls<br>
+do<br>
+echo &quot;ban zhanglove$i&quot;<br>
+done</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 for 2 .sh<br>
+[atguigu@hadoop 101 shells]$ ./for 2 .sh<br>
+ban zhang love cls<br>
+ban zhang love mly</p>
+<h4 id="-15">——————————————————————————————————————</h4>
+<p>ban zhang love wls</p>
+<h4 id="2-比较和区别">（ 2 ）比较<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mi mathvariant="normal">和</mi></mrow><annotation encoding="application/x-tex">*和</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mord cjk_fallback">和</span></span></span></span>@区别</h4>
+<h4 id="和都表示传递给函数或脚本的所有参数不被双引号包含时都以-1-2-n"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mi mathvariant="normal">和</mi></mrow><annotation encoding="application/x-tex">*和</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mord cjk_fallback">和</span></span></span></span>@都表示传递给函数或脚本的所有参数，不被双引号“”包含时，都以$ 1 $ 2 ...$n</h4>
+<h4 id="的形式输出所有参数">的形式输出所有参数。</h4>
+<p>[atguigu@hadoop 101 shells]$ touch for 3 .sh<br>
+[atguigu@hadoop 101 shells]$ vim for 3 .sh</p>
+<p>#!/bin/bash<br>
+echo '=<mark><mark><mark><mark><mark><mark>$*</mark></mark></mark></mark></mark></mark>='<br>
+for iin $*<br>
+do<br>
+echo&quot;banzhang love $i&quot;<br>
+done</p>
+<p>echo '=<mark><mark><mark><mark><mark><mark>$@</mark></mark></mark></mark></mark></mark>='<br>
+for jin $@<br>
+do<br>
+echo&quot;banzhang love $j&quot;<br>
+done</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 for 3 .sh<br>
+[atguigu@hadoop 101 shells]$ ./for 3 .sh cls mlywls<br>
+=<mark><mark><mark><mark><mark><mark><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mi>b</mi><mi>a</mi><mi>n</mi><mi>z</mi><mi>h</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>v</mi><mi>e</mi><mi>c</mi><mi>l</mi><mi>s</mi><mi>b</mi><mi>a</mi><mi>n</mi><mi>z</mi><mi>h</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>v</mi><mi>e</mi><mi>m</mi><mi>l</mi><mi>y</mi><mi>b</mi><mi>a</mi><mi>n</mi><mi>z</mi><mi>h</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>v</mi><mi>e</mi><mi>w</mi><mi>l</mi><mi>s</mi><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">*=============
+banzhang love cls
+banzhang love mly
+banzhang love wls
+=============</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mord mathdefault">b</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mord mathdefault">m</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">b</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span></span></span>@</mark></mark></mark></mark></mark></mark>=<br>
+banzhang love cls<br>
+banzhang love mly<br>
+banzhang love wls</p>
+<h4 id="当它们被双引号包含时会将所有的参数作为一个整体以-1-2-n的形式输">当它们被双引号“”包含时，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mi mathvariant="normal">会</mi><mi mathvariant="normal">将</mi><mi mathvariant="normal">所</mi><mi mathvariant="normal">有</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">参</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">作</mi><mi mathvariant="normal">为</mi><mi mathvariant="normal">一</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">整</mi><mi mathvariant="normal">体</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">“</mi></mrow><annotation encoding="application/x-tex">*会将所有的参数作为一个整体，以“</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mord cjk_fallback">会</span><span class="mord cjk_fallback">将</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">有</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">作</span><span class="mord cjk_fallback">为</span><span class="mord cjk_fallback">一</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">整</span><span class="mord cjk_fallback">体</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">以</span><span class="mord">“</span></span></span></span> 1 $ 2 ...$n”的形式输</h4>
+<h4 id="出所有参数会将各个参数分开以-1-2-n的形式输出所有参数">出所有参数；<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">@</mi><mi mathvariant="normal">会</mi><mi mathvariant="normal">将</mi><mi mathvariant="normal">各</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">参</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">分</mi><mi mathvariant="normal">开</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">“</mi></mrow><annotation encoding="application/x-tex">@会将各个参数分开，以“</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">@</span><span class="mord cjk_fallback">会</span><span class="mord cjk_fallback">将</span><span class="mord cjk_fallback">各</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">分</span><span class="mord cjk_fallback">开</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">以</span><span class="mord">“</span></span></span></span> 1 ”“$ 2 ”...“$n”的形式输出所有参数。</h4>
+<p>[atguigu@hadoop 101 shells]$ vim for 4 .sh</p>
+<p>#!/bin/bash<br>
+echo '=============<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><msup><mo>=</mo><mo mathvariant="normal">′</mo></msup><mi>f</mi><mi>o</mi><mi>r</mi><mi>i</mi><mi>i</mi><mi>n</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">*=============&#x27;
+for iin &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mrel"><span class="mrel">=</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord">&quot;</span></span></span></span>*&quot;<br>
+#<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mi mathvariant="normal">中</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">所</mi><mi mathvariant="normal">有</mi><mi mathvariant="normal">参</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">看</mi><mi mathvariant="normal">成</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">一</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">整</mi><mi mathvariant="normal">体</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">所</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">个</mi><mi>f</mi><mi>o</mi><mi>r</mi><mi mathvariant="normal">循</mi><mi mathvariant="normal">环</mi><mi mathvariant="normal">只</mi><mi mathvariant="normal">会</mi><mi mathvariant="normal">循</mi><mi mathvariant="normal">环</mi><mi mathvariant="normal">一</mi><mi mathvariant="normal">次</mi><mi>d</mi><mi>o</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>o</mi><mi mathvariant="normal">&quot;</mi><mi>b</mi><mi>a</mi><mi>n</mi><mi>z</mi><mi>h</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>v</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">*中的所有参数看成是一个整体，所以这个for循环只会循环一次
+do
+echo &quot;ban zhanglove</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">∗</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">有</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">看</span><span class="mord cjk_fallback">成</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">一</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">整</span><span class="mord cjk_fallback">体</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">个</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord cjk_fallback">循</span><span class="mord cjk_fallback">环</span><span class="mord cjk_fallback">只</span><span class="mord cjk_fallback">会</span><span class="mord cjk_fallback">循</span><span class="mord cjk_fallback">环</span><span class="mord cjk_fallback">一</span><span class="mord cjk_fallback">次</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord">&quot;</span><span class="mord mathdefault">b</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span></span></span></span>i&quot;<br>
+done</p>
+<p>echo '=============<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">@</mi><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><msup><mo>=</mo><mo mathvariant="normal">′</mo></msup><mi>f</mi><mi>o</mi><mi>r</mi><mi>j</mi><mi>i</mi><mi>n</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">@=============&#x27;
+for jin &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">@</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mrel"><span class="mrel">=</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord">&quot;</span></span></span></span>@&quot;<br>
+#<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">@</mi><mi mathvariant="normal">中</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">每</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">参</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">都</mi><mi mathvariant="normal">看</mi><mi mathvariant="normal">成</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">独</mi><mi mathvariant="normal">立</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">所</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">“</mi></mrow><annotation encoding="application/x-tex">@中的每个参数都看成是独立的，所以“</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">@</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">每</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">都</span><span class="mord cjk_fallback">看</span><span class="mord cjk_fallback">成</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">独</span><span class="mord cjk_fallback">立</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">以</span><span class="mord">“</span></span></span></span>@”中有几个参数，就会循环几次<br>
+do<br>
+echo &quot;ban zhanglove$j&quot;<br>
+done</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 for 4 .sh<br>
+[atguigu@hadoop 101 shells]$ ./for 4 .sh cls mlywls<br>
+=<mark><mark><mark><mark><mark><mark><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mi>b</mi><mi>a</mi><mi>n</mi><mi>z</mi><mi>h</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>v</mi><mi>e</mi><mi>c</mi><mi>l</mi><mi>s</mi><mi>m</mi><mi>l</mi><mi>y</mi><mi>w</mi><mi>l</mi><mi>s</mi><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">*=============
+banzhang love cls mly wls
+=============</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord">∗</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mord mathdefault">m</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span></span></span></span>@</mark></mark></mark></mark></mark></mark>=<br>
+banzhang love cls<br>
+banzhang love mly</p>
+<h4 id="-16">——————————————————————————————————————</h4>
+<p>banzhang love wls</p>
+<h3 id="6-4-while-循环">6. 4 while 循环</h3>
+<h4 id="1-基本语法-10">1 ）基本语法</h4>
+<h4 id="while-条件判断式">while [条件判断式 ]</h4>
+<h4 id="do-3">do</h4>
+<h4 id="程序-8">程序</h4>
+<h4 id="done-3">done</h4>
+<h4 id="2-案例实操-11">2 ）案例实操</h4>
+<h4 id="从-1-加到-100-2">从 1 加到 100</h4>
+<p>[atguigu@hadoop 101 shells]$ touch while.sh<br>
+[atguigu@hadoop 101 shells]$ vim while.sh</p>
+<p>#!/bin/bash<br>
+sum= 0<br>
+i= 1<br>
+while[ <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><mo>−</mo><mi>l</mi><mi>e</mi><mn>100</mn><mo>]</mo><mi>d</mi><mi>o</mi><mi>s</mi><mi>u</mi><mi>m</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">i-le 100 ]
+do
+sum=</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mclose">]</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span></span></span>[<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>u</mi><mi>m</mi><mo>+</mo></mrow><annotation encoding="application/x-tex">sum+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mord">+</span></span></span></span>i]<br>
+i=<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo></mrow><annotation encoding="application/x-tex">[</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span></span></span></span>i+ 1 ]<br>
+done</p>
+<p>echo $sum</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 while.sh<br>
+[atguigu@hadoop 101 shells]$ ./while.sh<br>
+5050</p>
+<h2 id="第-7-章-read-读取控制台输入">第 7 章 read 读取控制台输入</h2>
+<h4 id="1-基本语法-11">1 ）基本语法</h4>
+<h4 id="read-选项-参数">read (选项) (参数)</h4>
+<h4 id="1选项">①选项：</h4>
+<ul>
+<li>p：指定读取值时的提示符；</li>
+<li>t：指定读取值时等待的时间（秒）如果-t不加表示一直等待</li>
+</ul>
+<h4 id="2参数">②参数</h4>
+<h4 id="变量指定读取值的变量名">变量：指定读取值的变量名</h4>
+<h4 id="2-案例实操-12">2 ）案例实操</h4>
+<h4 id="提示-7-秒内读取控制台输入的名称">提示 7 秒内，读取控制台输入的名称</h4>
+<p>[atguigu@hadoop 101 shells]$ touch read.sh<br>
+[atguigu@hadoop 101 shells]$ vim read.sh</p>
+<p>#!/bin/bash</p>
+<p>read -t 7 - p &quot;Enter your name in 7 seconds :&quot;NN<br>
+echo $NN</p>
+<h4 id="-17">——————————————————————————————————————</h4>
+<p>[atguigu@hadoop 101 shells]$ ./read.sh<br>
+Enteryournamein 7 seconds :atguigu<br>
+atguigu</p>
+<h2 id="第-8-章-函数">第 8 章 函数</h2>
+<p><strong>8.</strong> (^1) 系统函数</p>
+<h3 id="8-1-1-basename">8. 1. 1 basename</h3>
+<h4 id="1-基本语法-12">1 ）基本语法</h4>
+<h4 id="basenamestringpathnamesuffix-功能描述basename命令会删掉所有的前">basename[string/pathname][suffix] （功能描述：basename命令会删掉所有的前</h4>
+<h4 id="缀包括最后一个字符然后将字符串显示出来">缀包括最后一个（‘/’）字符，然后将字符串显示出来。</h4>
+<h4 id="basename可以理解为取路径里的文件名称">basename可以理解为取路径里的文件名称</h4>
+<h4 id="选项">选项：</h4>
+<h4 id="suffix为后缀如果suffix被指定了basename会将pathname或string中的suffix去掉">suffix为后缀，如果suffix被指定了，basename会将pathname或string中的suffix去掉。</h4>
+<h4 id="2-案例实操-13">2 ）案例实操</h4>
+<h4 id="截取该homeatguigubanzhangtxt路径的文件名称">截取该/home/atguigu/banzhang.txt路径的文件名称。</h4>
+<p>[atguigu@hadoop 101 shells]$ basename /home/atguigu/banzhang.txt<br>
+banzhang.txt<br>
+[atguigu@hadoop 101 shells]$ basename /home/atguigu/banzhang.txt .txt<br>
+banzhang</p>
+<h3 id="8-1-2-dirname">8. 1. 2 dirname</h3>
+<h4 id="1-基本语法-13">1 ）基本语法</h4>
+<h4 id="dirname文件绝对路径-功能描述从给定的包含绝对路径的文件名中去除文件名">dirname文件绝对路径 （功能描述：从给定的包含绝对路径的文件名中去除文件名</h4>
+<h4 id="非目录的部分然后返回剩下的路径目录的部分">（非目录的部分），然后返回剩下的路径（目录的部分））</h4>
+<h4 id="dirname可以理解为取文件路径的绝对路径名称">dirname可以理解为取文件路径的绝对路径名称</h4>
+<h4 id="2-案例实操-14">2 ）案例实操</h4>
+<h4 id="获取banzhangtxt文件的路径">获取banzhang.txt文件的路径。</h4>
+<p>[atguigu@hadoop 101 ~]$ dirname/home/atguigu/banzhang.txt<br>
+/home/atguigu</p>
+<h3 id="8-2-自定义函数">8. 2 自定义函数</h3>
+<h4 id="1-基本语法-14">1 ）基本语法</h4>
+<h4 id="functionfunname">[function]funname[()]</h4>
+<h4 id="-18">{</h4>
+<h4 id="action">Action;</h4>
+<h4 id="returnint">[returnint;]</h4>
+<h4 id="-19">}</h4>
+<h4 id="-20">——————————————————————————————————————</h4>
+<h4 id="2-经验技巧">2 ）经验技巧</h4>
+<h4 id="1-必须在调用函数地方之前先声明函数shell脚本是逐行运行-不会像其它语言一">（ 1 ）必须在调用函数地方之前，先声明函数，shell脚本是逐行运行。不会像其它语言一</h4>
+<h4 id="样先编译">样先编译。</h4>
+<h4 id="2-函数返回值只能通过系统变量获得可以显示加return返回如果不加将">（ 2 ）函数返回值，只能通过$?系统变量获得，可以显示加：return返回，如果不加，将</h4>
+<h4 id="以最后一条命令运行结果作为返回值-return后跟数值n-0-255">以最后一条命令运行结果，作为返回值。return后跟数值n( 0 - 255 )</h4>
+<h4 id="3-案例实操-3">3 ）案例实操</h4>
+<h4 id="计算两个输入参数的和">计算两个输入参数的和。</h4>
+<p>[atguigu@hadoop 101 shells]$ touch fun.sh<br>
+[atguigu@hadoop 101 shells]$ vim fun.sh</p>
+<p>#!/bin/bash<br>
+function sum()<br>
+{<br>
+s= 0<br>
+s=<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo></mrow><annotation encoding="application/x-tex">[</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span></span></span></span> 1 +$ 2 ]<br>
+echo &quot;$s&quot;<br>
+}</p>
+<p>read -p &quot;Pleaseinput thenumber 1 : &quot; n 1 ;<br>
+read -p &quot;Pleaseinput thenumber 2 : &quot; n 2 ;<br>
+sum $n 1 $n 2 ;</p>
+<p>[atguigu@hadoop 101 shells]$ chmod 777 fun.sh<br>
+[atguigu@hadoop 101 shells]$ ./fun.sh<br>
+Please input the number 1 : 2<br>
+Please input the number 2 : 5<br>
+7</p>
+<h2 id="第-9-章-正则表达式入门">第 9 章 正则表达式入门</h2>
+<h4 id="正则表达式使用单个字符串来描述-匹配一系列符合某个语法规则的字符串-在很多文">正则表达式使用单个字符串来描述、匹配一系列符合某个语法规则的字符串。在很多文</h4>
+<h4 id="本编辑器里正则表达式通常被用来检索-替换那些符合某个模式的文本-在linux中grep">本编辑器里，正则表达式通常被用来检索、替换那些符合某个模式的文本。在Linux中，grep，</h4>
+<h4 id="sedawk等文本处理工具都支持通过正则表达式进行模式匹配">sed，awk等文本处理工具都支持通过正则表达式进行模式匹配。</h4>
+<h3 id="9-1-常规匹配">9. 1 常规匹配</h3>
+<h4 id="一串不包含特殊字符的正则表达式匹配它自己例如">一串不包含特殊字符的正则表达式匹配它自己，例如：</h4>
+<p>[atguigu@hadoop 101 shells]$ cat /etc/passwd |grepatguigu</p>
+<h4 id="就会匹配所有包含atguigu的行">就会匹配所有包含atguigu的行。</h4>
+<p><strong>9.</strong> (^2) 常用特殊字符</p>
+<h4 id="1-特殊字符">1 ）特殊字符： ^</h4>
+<h4 id="匹配一行的开头例如">^匹配一行的开头，例如：</h4>
+<p>[atguigu@hadoop 101 shells]$ cat /etc/passwd |grep^a</p>
+<h4 id="会匹配出所有以a开头的行">会匹配出所有以a开头的行</h4>
+<h4 id="-21">——————————————————————————————————————</h4>
+<h4 id="2-特殊字符">2 ）特殊字符： $</h4>
+<h4 id="匹配一行的结束例如">$匹配一行的结束，例如</h4>
+<p>[atguigu@hadoop 101 shells]$ cat /etc/passwd |grept$</p>
+<h4 id="会匹配出所有以t结尾的行">会匹配出所有以t结尾的行</h4>
+<h4 id="思考-匹配什么">思考： ^$ 匹配什么？</h4>
+<h4 id="3-特殊字符">3 ）特殊字符：.</h4>
+<h4 id="匹配一个任意的字符例如">.匹配一个任意的字符，例如</h4>
+<p>[atguigu@hadoop 101 shells]$ cat /etc/passwd |grepr..t</p>
+<h4 id="会匹配包含rabtrbbtrxdtroot等的所有行">会匹配包含rabt,rbbt,rxdt,root等的所有行</h4>
+<h4 id="4-特殊字符">4 ）特殊字符： *</h4>
+<h4 id="不单独使用他和上一个字符连用表示匹配上一个字符-0-次或多次例如">*不单独使用，他和上一个字符连用，表示匹配上一个字符 0 次或多次，例如</h4>
+<p>[atguigu@hadoop 101 shells]$ cat /etc/passwd |grepro*t</p>
+<h4 id="会匹配rtrotrootroootroooot等所有行">会匹配rt,rot,root,rooot,roooot等所有行</h4>
+<h4 id="思考-匹配什么-2">思考： .* 匹配什么？</h4>
+<h4 id="5-字符区间中括号">5 ）字符区间（中括号）： []</h4>
+<h4 id="表示匹配某个范围内的一个字符例如">[] 表示匹配某个范围内的一个字符，例如</h4>
+<h4 id="6-8-匹配-6-或者-8">[ 6 , 8 ]------匹配 6 或者 8</h4>
+<h4 id="0-9-匹配一个-0-9-的数字">[ 0 - 9 ]------匹配一个 0 - 9 的数字</h4>
+<h4 id="0-9-匹配任意长度的数字字符串">[ 0 - 9 ]*------匹配任意长度的数字字符串</h4>
+<h4 id="a-z-匹配一个a-z之间的字符">[a-z]------匹配一个a-z之间的字符</h4>
+<h4 id="a-z-匹配任意长度的字母字符串">[a-z]*------匹配任意长度的字母字符串</h4>
+<h4 id="a-ce-f-匹配a-c或者e-f之间的任意字符">[a-c,e-f]-匹配a-c或者e-f之间的任意字符</h4>
+<p>[atguigu@hadoop 101 shells]$ cat /etc/passwd |grepr[a,b,c]*t</p>
+<h4 id="会匹配rtratrbtrabtrbactrabccbaaacbt等等所有行">会匹配rt,rat,rbt,rabt,rbact,rabccbaaacbt等等所有行</h4>
+<h4 id="6-特殊字符">6 ）特殊字符： \</h4>
+<h4 id="表示转义并不会单独使用-由于所有特殊字符都有其特定匹配模式当我们想匹配">\表示转义，并不会单独使用。由于所有特殊字符都有其特定匹配模式，当我们想匹配</h4>
+<h4 id="某一特殊字符本身时例如我想找出所有包含-的行就会碰到困难-此时我们就要">某一特殊字符本身时（例如，我想找出所有包含 '$'的行），就会碰到困难。此时我们就要</h4>
+<h4 id="将转义字符和特殊字符连用来表示特殊字符本身例如">将转义字符和特殊字符连用，来表示特殊字符本身，例如</h4>
+<pre><code>[atguigu@hadoop 101 shells]$ cat /etc/passwd |grep‘a\$b’
+</code></pre>
+<h4 id="就会匹配所有包含-ab-的行-注意需要使用单引号将表达式引起来">就会匹配所有包含 a$b 的行。注意需要使用单引号将表达式引起来。</h4>
+<h4 id="-22">——————————————————————————————————————</h4>
+<h2 id="第-10-章-文本处理工具">第 10 章 文本处理工具</h2>
+<h3 id="10-1-cut">10. 1 cut</h3>
+<h4 id="cut的工作就是剪具体的说就是在文件中负责剪切数据用的-cut命令从文件的每">cut的工作就是“剪”，具体的说就是在文件中负责剪切数据用的。cut命令从文件的每</h4>
+<h4 id="一行剪切字节-字符和字段并将这些字节-字符和字段输出">一行剪切字节、字符和字段并将这些字节、字符和字段输出。</h4>
+<h4 id="1-基本用法">1 ）基本用法</h4>
+<h4 id="cut-选项参数-filename">cut [选项参数] filename</h4>
+<h4 id="说明默认分隔符是制表符">说明：默认分隔符是制表符</h4>
+<h4 id="2-选项参数说明">2 ）选项参数说明</h4>
+<h4 id="选项参数-功能">选项参数 功能</h4>
+<ul>
+<li>f 列号，提取第几列</li>
+<li>d 分隔符，按照指定分隔符分割列，默认是制表符“\t”</li>
+<li>c 按字符进行切割 后加加n表示取第几列 比如 -c 1</li>
+</ul>
+<h4 id="3-案例实操-4">3 ）案例实操</h4>
+<h4 id="1-数据准备">（ 1 ）数据准备</h4>
+<p>[atguigu@hadoop 101 shells]$ touch cut.txt<br>
+[atguigu@hadoop 101 shells]$ vim cut.txt<br>
+dong shen<br>
+guan zhen<br>
+wo wo<br>
+lai lai<br>
+le le</p>
+<h4 id="2-切割cuttxt第一列">（ 2 ）切割cut.txt第一列</h4>
+<p>[atguigu@hadoop 101 shells]$ cut -d &quot; &quot; -f 1 cut.txt<br>
+dong<br>
+guan<br>
+wo<br>
+lai<br>
+le</p>
+<h4 id="3-切割cuttxt第二-三列">（ 3 ）切割cut.txt第二、三列</h4>
+<p>[atguigu@hadoop 101 shells]$ cut -d &quot; &quot; -f 2 , 3 cut.txt<br>
+shen<br>
+zhen<br>
+wo<br>
+lai<br>
+le</p>
+<h4 id="4-在cuttxt文件中切割出guan">（ 4 ）在cut.txt文件中切割出guan</h4>
+<p>[atguigu@hadoop 101 shells]$ catcut.txt |grep guan | cut-d &quot;&quot; -f 1<br>
+guan</p>
+<h4 id="5-选取系统path变量值第-2-个开始后的所有路径">（ 5 ）选取系统PATH变量值，第 2 个“：”开始后的所有路径：</h4>
+<p>[atguigu@hadoop 101 shells]$ echo $PATH<br>
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/atguigu/.local/bin:/<br>
+home/atguigu/bin</p>
+<h4 id="-23">——————————————————————————————————————</h4>
+<p>[atguigu@hadoop 101 shells]$ echo $PATH |cut -d &quot;:&quot; -f 3 -<br>
+/usr/local/sbin:/usr/sbin:/home/atguigu/.local/bin:/home/atguigu/bin</p>
+<h4 id="6-切割ifconfig后打印的ip地址">（ 6 ）切割ifconfig后打印的IP地址</h4>
+<p>[atguigu@hadoop 101 shells]$ ifconfig ens 33 | grep netmask | cut -d &quot; &quot;-f 10<br>
+192. 168. 111. 101</p>
+<h3 id="10-2-awk">10. 2 awk</h3>
+<h4 id="一个强大的文本分析工具把文件逐行的读入以空格为默认分隔符将每行切片切开">一个强大的文本分析工具，把文件逐行的读入，以空格为默认分隔符将每行切片，切开</h4>
+<h4 id="的部分再进行分析处理">的部分再进行分析处理。</h4>
+<h4 id="1-基本用法-2">1 ）基本用法</h4>
+<h4 id="awk-选项参数-pattern-1-action-1-pattern-2-action-2-filename">awk [选项参数] ‘/pattern 1 /{action 1 } /pattern 2 /{action 2 }...’filename</h4>
+<h4 id="pattern表示awk在数据中查找的内容就是匹配模式">pattern：表示awk在数据中查找的内容，就是匹配模式</h4>
+<h4 id="action在找到匹配内容时所执行的一系列命令">action：在找到匹配内容时所执行的一系列命令</h4>
+<h4 id="2-选项参数说明-2">2 ）选项参数说明</h4>
+<h4 id="选项参数-功能-2">选项参数 功能</h4>
+<ul>
+<li>F 指定输入文件分隔符</li>
+<li>v 赋值一个用户定义变量</li>
+</ul>
+<h4 id="3-案例实操-5">3 ）案例实操</h4>
+<h4 id="1-数据准备-2">（ 1 ）数据准备</h4>
+<p>[atguigu@hadoop 101 shells]$ sudo cp/etc/passwd ./<br>
+passwd数据的含义<br>
+用户名:密码(加密过后的):用户id:组id:注释:用户家目录:shell解析器</p>
+<h4 id="2-搜索passwd文件以root关键字开头的所有行并输出该行的第-7-列">（ 2 ）搜索passwd文件以root关键字开头的所有行，并输出该行的第 7 列。</h4>
+<p>[atguigu@hadoop 101 shells]$ awk -F : '/^root/{print $ 7 }' passwd<br>
+/bin/bash</p>
+<h4 id="3-搜索passwd文件以root关键字开头的所有行并输出该行的第-1-列和第-7-列">（ 3 ）搜索passwd文件以root关键字开头的所有行，并输出该行的第 1 列和第 7 列，</h4>
+<h4 id="中间以号分割">中间以“，”号分割。</h4>
+<p>[atguigu@hadoop 101 shells]$ awk -F : '/^root/{print $ 1 &quot;,&quot;$ 7 }' passwd<br>
+root,/bin/bash</p>
+<h4 id="注意只有匹配了pattern的行才会执行action">注意：只有匹配了pattern的行才会执行action。</h4>
+<h4 id="4-只显示etcpasswd的第一列和第七列以逗号分割且在所有行前面添加列名user">（ 4 ）只显示/etc/passwd的第一列和第七列，以逗号分割，且在所有行前面添加列名user，</h4>
+<h4 id="shell在最后一行添加dahaigebinzuishuai">shell在最后一行添加&quot;dahaige，/bin/zuishuai&quot;。</h4>
+<p>[atguigu@hadoop 101 shells]<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;}&#039;, got &#039;EOF&#039; at end of input: …r,shell&quot;}{print'>awk-F:&#039;BEGIN{print&quot;user,shell&quot;}{print</span> 1 &quot;,&quot;$ 7 }<br>
+END{print &quot;dahaige,/bin/zuishuai&quot;}'passwd<br>
+user,shell<br>
+root,/bin/bash<br>
+bin,/sbin/nologin<br>
+。。。<br>
+atguigu,/bin/bash<br>
+dahaige,/bin/zuishuai</p>
+<h4 id="注意begin在所有数据读取行之前执行end在所有数据执行之后执行">注意：BEGIN在所有数据读取行之前执行；END在所有数据执行之后执行。</h4>
+<h4 id="-24">——————————————————————————————————————</h4>
+<h4 id="5-将passwd文件中的用户id增加数值-1-并输出">（ 5 ）将passwd文件中的用户id增加数值 1 并输出</h4>
+<p>[atguigu@hadoop 101 shells]$ awk -v i= 1 - F : '{print $ 3 +i}' passwd<br>
+1<br>
+2<br>
+3<br>
+4</p>
+<h4 id="4-awk-的内置变量">4 ） awk 的内置变量</h4>
+<h4 id="变量-说明">变量 说明</h4>
+<h4 id="filename-文件名">FILENAME 文件名</h4>
+<h4 id="nr-已读的记录数行号">NR 已读的记录数（行号）</h4>
+<h4 id="nf-浏览记录的域的个数切割后列的个数">NF 浏览记录的域的个数（切割后，列的个数）</h4>
+<h4 id="5-案例实操">5 ）案例实操</h4>
+<h4 id="1-统计passwd文件名每行的行号每行的列数">（ 1 ）统计passwd文件名，每行的行号，每行的列数</h4>
+<p>[atguigu@hadoop 101 shells]$awk-F :'{print&quot;filename:&quot; FILENAME &quot;,linenum:&quot;<br>
+NR &quot;,col:&quot;NF}' passwd<br>
+filename:passwd,linenum: 1 ,col: 7<br>
+filename:passwd,linenum: 2 ,col: 7<br>
+filename:passwd,linenum: 3 ,col: 7<br>
+...</p>
+<h4 id="2-查询ifconfig命令输出结果中的空行所在的行号">（ 2 ）查询ifconfig命令输出结果中的空行所在的行号</h4>
+<p>[atguigu@hadoop 101 shells]$ ifconfig | awk '/^$/{print NR}'<br>
+9<br>
+18<br>
+26</p>
+<h4 id="3-切割ip">（ 3 ）切割IP</h4>
+<p>[atguigu@hadoop 101 shells]$ ifconfig ens 33 | awk '/netmask/ {print $ 2 }'<br>
+192. 168. 6. 101</p>
+<h2 id="第-11-章-综合应用案例">第 11 章 综合应用案例</h2>
+<h3 id="11-1-归档文件">11. 1 归档文件</h3>
+<h4 id="实际生产应用中往往需要对重要数据进行归档备份">实际生产应用中，往往需要对重要数据进行归档备份。</h4>
+<h4 id="需求实现一个每天对指定目录归档备份的脚本输入一个目录名称末尾不带">需求：实现一个每天对指定目录归档备份的脚本，输入一个目录名称（末尾不带/），</h4>
+<h4 id="将目录下所有文件按天归档保存并将归档日期附加在归档文件名上放在rootarchive下">将目录下所有文件按天归档保存，并将归档日期附加在归档文件名上，放在/root/archive下。</h4>
+<h4 id="这里用到了归档命令tar">这里用到了归档命令：tar</h4>
+<h4 id="后面可以加上-c选项表示归档加上-z选项表示同时进行压缩得到的文件后缀名">后面可以加上-c选项表示归档，加上-z选项表示同时进行压缩，得到的文件后缀名</h4>
+<h4 id="为targz">为.tar.gz。</h4>
+<h4 id="脚本实现如下">脚本实现如下：</h4>
+<p>#!/bin/bash</p>
+<h5 id="首先判断输入参数个数是否为-1">#首先判断输入参数个数是否为 1</h5>
+<h4 id="-25">——————————————————————————————————————</h4>
+<p>if [ $# -ne 1 ]<br>
+then<br>
+echo &quot;参数个数错误！应该输入一个参数，作为归档目录名&quot;<br>
+exit<br>
+fi</p>
+<p>#从参数中获取目录名称<br>
+if [ -d $ 1 ]<br>
+then<br>
+echo<br>
+else<br>
+echo<br>
+echo &quot;目录不存在！&quot;<br>
+echo<br>
+exit<br>
+fi</p>
+<p>DIR_NAME=$(basename $ 1 )<br>
+DIR_PATH=$(cd $(dirname $ 1 ); pwd)</p>
+<h5 id="获取当前日期">#获取当前日期</h5>
+<p>DATE=$(date +%y%m%d)</p>
+<h5 id="定义生成的归档文件名称">#定义生成的归档文件名称</h5>
+<p>FILE=archive_<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;_&#039; at position 11: {DIR_NAME}_̲'>{DIR_NAME}_</span>DATE.tar.gz<br>
+DEST=/root/archive/$FILE</p>
+<p>#开始归档目录文件</p>
+<p>echo &quot;开始归档...&quot;<br>
+echo</p>
+<p>tar -czf $DEST <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>D</mi><mi>I</mi><msub><mi>R</mi><mi>P</mi></msub><mi>A</mi><mi>T</mi><mi>H</mi><mi mathvariant="normal">/</mi></mrow><annotation encoding="application/x-tex">DIR_PATH/</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">P</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord">/</span></span></span></span>DIR_NAME</p>
+<p>if [ <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>?</mo><mo>−</mo><mi>e</mi><mi>q</mi><mn>0</mn><mo>]</mo><mi>t</mi><mi>h</mi><mi>e</mi><mi>n</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>o</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>o</mi><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">归</mi><mi mathvariant="normal">档</mi><mi mathvariant="normal">成</mi><mi mathvariant="normal">功</mi><mi mathvariant="normal">！</mi><mi mathvariant="normal">&quot;</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>o</mi><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">归</mi><mi mathvariant="normal">档</mi><mi mathvariant="normal">文</mi><mi mathvariant="normal">件</mi><mi mathvariant="normal">为</mi><mi mathvariant="normal">：</mi></mrow><annotation encoding="application/x-tex">? -eq 0 ]
+then
+echo
+echo &quot;归档成功！&quot;
+echo &quot;归档文件为：</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mclose">?</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord">0</span><span class="mclose">]</span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord">&quot;</span><span class="mord cjk_fallback">归</span><span class="mord cjk_fallback">档</span><span class="mord cjk_fallback">成</span><span class="mord cjk_fallback">功</span><span class="mord cjk_fallback">！</span><span class="mord">&quot;</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord">&quot;</span><span class="mord cjk_fallback">归</span><span class="mord cjk_fallback">档</span><span class="mord cjk_fallback">文</span><span class="mord cjk_fallback">件</span><span class="mord cjk_fallback">为</span><span class="mord cjk_fallback">：</span></span></span></span>DEST&quot;<br>
+echo<br>
+else<br>
+echo &quot;归档出现问题！&quot;<br>
+echo<br>
+fi</p>
+<p>exit</p>
+<h3 id="11-2-发送消息">11. 2 发送消息</h3>
+<h4 id="我们可以利用linux自带的mesg和write工具向其它用户发送消息">我们可以利用Linux自带的mesg和write工具，向其它用户发送消息。</h4>
+<h4 id="需求实现一个向某个用户快速发送消息的脚本输入用户名作为第一个参数后面直">需求：实现一个向某个用户快速发送消息的脚本，输入用户名作为第一个参数，后面直</h4>
+<h4 id="接跟要发送的消息-脚本需要检测用户是否登录在系统中-是否打开消息功能以及当前发">接跟要发送的消息。脚本需要检测用户是否登录在系统中、是否打开消息功能，以及当前发</h4>
+<h4 id="送消息是否为空">送消息是否为空。</h4>
+<h4 id="脚本实现如下-2">脚本实现如下：</h4>
+<h4 id="-26">——————————————————————————————————————</h4>
+<p>#!/bin/bash</p>
+<p>login_user=$(who | grep -i -m 1 $ 1 | awk'{print $ 1 }')</p>
+<p>if [ -z <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><msub><mi>n</mi><mi>u</mi></msub><mi>s</mi><mi>e</mi><mi>r</mi><mo>]</mo><mi>t</mi><mi>h</mi><mi>e</mi><mi>n</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>o</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">login_user ]
+then
+echo &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">i</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord">&quot;</span></span></span></span> 1 不在线！&quot;<br>
+echo &quot;脚本退出..&quot;<br>
+exit<br>
+fi</p>
+<p>is_allowed=$(who -T | grep -i -m 1 $ 1 | awk '{print $ 2 }')</p>
+<p>if [ <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><msub><mi>s</mi><mi>a</mi></msub><mi>l</mi><mi>l</mi><mi>o</mi><mi>w</mi><mi>e</mi><mi>d</mi><mo>!</mo><mo>=</mo><mi mathvariant="normal">&quot;</mi><mo>+</mo><mi mathvariant="normal">&quot;</mi><mo>]</mo><mi>t</mi><mi>h</mi><mi>e</mi><mi>n</mi><mi>e</mi><mi>c</mi><mi>h</mi><mi>o</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">is_allowed != &quot;+&quot; ]
+then
+echo &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault">i</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault">e</span><span class="mord mathdefault">d</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">&quot;</span><span class="mclose">]</span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord mathdefault">o</span><span class="mord">&quot;</span></span></span></span> 1 没有开启消息功能&quot;<br>
+echo &quot;脚本退出..&quot;<br>
+exit<br>
+fi</p>
+<p>if [ -z $ 2 ]<br>
+then<br>
+echo &quot;没有消息发出&quot;<br>
+echo &quot;脚本退出..&quot;<br>
+exit<br>
+fi</p>
+<p>whole_msg=$(echo $* | cut-d &quot;&quot; -f 2 - )</p>
+<p>user_terminal=$(who | grep -i -m 1 $ 1 | awk '{print $ 2 }')</p>
+<p>echo $whole_msg| write <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><msub><mi>n</mi><mi>u</mi></msub><mi>s</mi><mi>e</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">login_user</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">i</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span></span></span></span>user_terminal</p>
+<p>if [ $? != 0 ]<br>
+then<br>
+echo &quot;发送失败！&quot;<br>
+else<br>
+echo &quot;发送成功！&quot;<br>
+fi</p>
+<p>exit</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://github5201.github.io/post/guan-fang-biao-pei-fei-chang-xuan-ku-de-linux-ke-shi-hua-guan-li-gong-ju-ni-zhi-de-yong-you/">
+                  <h3 class="post-title">
+                    官方标配！非常炫酷的 Linux 可视化管理工具，你值得拥有！
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

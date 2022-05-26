@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>官方标配！非常炫酷的 Linux 可视化管理工具，你值得拥有！ | 蓝颜时光网络</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://github5201.github.io/favicon.ico?v=1653608270895">
+<link rel="stylesheet" href="https://github5201.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+用了很久的CentOS 7，最近想体验一下CentOS 8。无意中发现CentOS 8内置了一款可视化管理工具Cockpit，一些常见的命令行操作它都能支持，界面炫酷且功能强大，推荐给大家！
+
+SpringBoot实战电商项目mall（5..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://github5201.github.io">
+        <img src="https://github5201.github.io/images/avatar.png?v=1653608270895" class="site-logo">
+        <h1 class="site-title">蓝颜时光网络</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="https://www.centos.org/download/" class="site-nav" target="_blank">
+            CentOS下载
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      蓝颜时光
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://github5201.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">官方标配！非常炫酷的 Linux 可视化管理工具，你值得拥有！</h2>
+            <div class="post-date">2022-05-25</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>用了很久的<code>CentOS 7</code>，最近想体验一下<code>CentOS 8</code>。无意中发现<code>CentOS 8</code>内置了一款可视化管理工具<code>Cockpit</code>，一些常见的命令行操作它都能支持，界面炫酷且功能强大，推荐给大家！</p>
+</blockquote>
+<p>SpringBoot实战电商项目mall（50k+star）地址：<a href="https://github.com/macrozheng/mall">https://github.com/macrozheng/mall</a></p>
+<h2 id="cockpit简介">Cockpit简介</h2>
+<p><code>Cockpit</code>是<code>CentOS 8</code>内置的一款基于Web的可视化管理工具，对一些常见的命令行管理操作都有界面支持，比如用户管理、防火墙管理、服务器资源监控等，使用非常方便，号称人人可用的Linux管理工具。</p>
+<p>下面是<code>Cockpit</code>的管理界面，看起来还是挺炫酷的！</p>
+<figure data-type="image" tabindex="1"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b0dda5bf85f14050b7853bfdc00f0a5b~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<h2 id="centos-8安装">CentOS 8安装</h2>
+<blockquote>
+<p>如果你想体验最新版本的<code>Cockpit</code>，需要安装<code>CentOS 8</code>，下面我们先简单聊聊<code>CentOS 8</code>的安装。</p>
+</blockquote>
+<ul>
+<li><code>CentOS 8</code>的安装与<code>CentOS 7</code>基本相同，这里安装的是目前最新版<code>8.5.2111</code>，具体安装可以参考<a href="https://mp.weixin.qq.com/s/rmUsSgxjwVz9ntdY1gmP7A">虚拟机安装及使用Linux，看这一篇就够了！</a> ，镜像下载地址：https://vault.centos.org/8.5.2111/isos/x86_64/</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/da2bb905a68748f9b0bcf200f08e3c8a~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>使用<code>CentOS 8</code>的yum命令安装软件时经常会遇到无法下载的问题，切换到阿里云的镜像源即可解决，这里使用<code>Centos-vault-8.5.2111.repo</code>仓库配置；</li>
+</ul>
+<pre><code class="language-bash"># 先将原BaseOS配置进行备份
+mv /etc/yum.repos.d/CentOS-Linux-BaseOS.repo /etc/yum.repos.d/CentOS-Linux-BaseOS.repo.bak
+# 再下载新配置
+sudo wget -O /etc/yum.repos.d/CentOS-Linux-BaseOS.repo http://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo
+</code></pre>
+<ul>
+<li>yum仓库配置文件在<code>/etc/yum.repos.d</code>目录下，再修改<code>CentOS-Linux-AppStream.repo</code>文件，直接拷贝<code>CentOS-Linux-BaseOS</code>中的<code>appstream</code>部分即可；</li>
+</ul>
+<pre><code>[appstream]
+name=CentOS-8.5.2111 - AppStream - mirrors.aliyun.com
+baseurl=http://mirrors.aliyun.com/centos-vault/8.5.2111/AppStream/$basearch/os/
+        http://mirrors.aliyuncs.com/centos-vault/8.5.2111/AppStream/$basearch/os/
+        http://mirrors.cloud.aliyuncs.com/centos-vault/8.5.2111/AppStream/$basearch/os/
+gpgcheck=0
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-Official
+</code></pre>
+<ul>
+<li>运行如下命令清空缓存并生效；</li>
+</ul>
+<pre><code class="language-bash">sudo yum clean all
+sudo yum makecache
+</code></pre>
+<ul>
+<li>接下来查询一个安装包信息测试下，发现已经可以正常使用了。</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d75fcdaca5b441e7adb7256c727fda1a~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<h2 id="cockpit安装启动">Cockpit安装启动</h2>
+<blockquote>
+<p>下面介绍下Cockpit的安装和启动，非常简单。</p>
+</blockquote>
+<ul>
+<li><code>CentOS 8</code>默认已安装Cockpit，直接启动服务即可；</li>
+</ul>
+<pre><code class="language-bash"># 配置cockpit服务开机自启
+systemctl enable --now cockpit.socket
+# 启动cockpit服务
+systemctl start cockpit
+</code></pre>
+<ul>
+<li><code>CentOS 7</code>上如果要使用Cockpit的话，需要自行安装，并开放对应服务；</li>
+</ul>
+<pre><code class="language-bash"># 安装
+yum install cockpit
+# 开放服务
+firewall-cmd --permanent --zone=public --add-service=cockpit
+# 重新加载防护墙
+firewall-cmd --reload
+</code></pre>
+<ul>
+<li>安装完成后即可通过浏览器访问Cockpit，使用Linux用户即可登录（比如root用户），访问地址：http://192.168.3.106:9090/</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a53bcf3dd388439cb6283066c7f54b43~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<h2 id="cockpit使用">Cockpit使用</h2>
+<blockquote>
+<p>之前我们经常使用命令行来管理Linux服务器，有了<code>Cockpit</code>就可以愉快地使用图形化界面了，下面我们来体验下<code>Cockpit</code>的功能。</p>
+</blockquote>
+<ul>
+<li>通过<code>概览</code>查看服务器的基本信息，包括CPU内存使用情况、系统信息、服务器配置等；</li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7f4b59d855c4708b59a4d42ce9edf39~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>点击<code>使用</code>可以查看到更详细的CPU、内存、磁盘、网络等监控信息，基本上就是个界面版的<code>top</code>命令啊；</li>
+</ul>
+<figure data-type="image" tabindex="6"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c9a7253740b04f4d9f8557c9c5d4f66f~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>通过<code>存储</code>可以查看更为详细的文件系统信息，还可以进行卷组的管理及NFS的挂载；</li>
+</ul>
+<figure data-type="image" tabindex="7"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34685b0dcd8c4ae0a7d305847248c141~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>通过<code>网络</code>可以查看防火墙及网络监控信息，可以进行防火墙的开启关闭；</li>
+</ul>
+<figure data-type="image" tabindex="8"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cdc148b44da74eaba88a3c88a9be2cba~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>点击<code>防火墙</code>可以查看开放的服务端口，通过<code>添加服务</code>可以直接开放端口，还在用<code>firewalld</code>命令？</li>
+</ul>
+<figure data-type="image" tabindex="9"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d6f93b76335f4175a74b341ddd786f24~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>通过<code>Podman容器</code>管理可以像使用Docker一样下载镜像并创建运行容器；</li>
+</ul>
+<figure data-type="image" tabindex="10"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/40717131e14f46f080b8102b5472f442~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>比如说我们可以根据Nginx镜像来创建一个nginx容器，并运行在<code>80</code>端口上；</li>
+</ul>
+<figure data-type="image" tabindex="11"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9401ed1331aa4e70836c8f43702b854f~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>此时直接访问服务器的<code>80</code>端口就可以访问到Nginx的首页了；</li>
+</ul>
+<figure data-type="image" tabindex="12"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2ccf8179e6384407afd8d3cf3354e062~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>通过<code>账户</code>可以方便地管理Linux中的用户，再也不用<code>useradd</code>命令了；</li>
+</ul>
+<figure data-type="image" tabindex="13"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c36f1e0f8e5f49848357b27014b9a6ad~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>另外Cockpit在服务器软件需要更新时也会提示我们，通过<code>软件更新</code>可以进行更新操作；</li>
+</ul>
+<figure data-type="image" tabindex="14"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7eaa4543a6d345b5ae06f6e9bff4f9f7~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>通过<code>应用</code>功能可以下载一些服务器应用，目前只有几个可以安装，期待以后能有更多选择；</li>
+</ul>
+<figure data-type="image" tabindex="15"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f84e32f576244b5d92666ef8876810ba~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>如果以上功能满足不了你的需求，Cockpit也提供了命令行功能，打开<code>终端</code>即使用；</li>
+</ul>
+<figure data-type="image" tabindex="16"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ac6cbbc61fc646a5957b25081dbfd90e~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<ul>
+<li>Cockpit还提供了SELinux管理功能，可以控制其开启和关闭。</li>
+</ul>
+<figure data-type="image" tabindex="17"><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6edf7373865d4991859381b5d24c69ca~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></figure>
+<h2 id="总结">总结</h2>
+<p>作为<code>CentOS 8</code>官方内置的可视化管理功能，<code>Cockpit</code>确实涵盖了很多常用的服务器管理功能，界面炫酷且使用方便！升级到<code>CentOS 8</code>的朋友，不妨尝试下它！</p>
+<h2 id="参考资料">参考资料</h2>
+<p>官网文档：https://cockpit-project.org/documentation.html</p>
+<blockquote>
+<p>本文 转发自稀土掘金文章 <a href="https://juejin.cn/post/7067708664651448327">官方标配！非常炫酷的 Linux 可视化管理工具，你值得拥有！</a></p>
+</blockquote>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://github5201.github.io/post/linux-linux-chang-yong-ming-ling-shi-yong/">
+                  <h3 class="post-title">
+                    【Linux】Linux常用命令使用
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
